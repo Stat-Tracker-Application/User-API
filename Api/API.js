@@ -8,7 +8,7 @@ app.use(bodyparser.json());
 
 app.get("/", function (req, res) {
   res.send({
-    message: "Hello world",
+    message: "Hello world from the user api",
   });
 });
 
