@@ -1,0 +1,17 @@
+{
+  "name": "user-api",
+  "version": "1.0.0",
+  "description": "An APi that handels the user related requests for the stat tracker Application",
+  "main": "./Api/Server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon ./Api/Server.js",
+    "test": "Test"
+  },
+  "author": "Bart Hagoort",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "https": "^1.0.0"
+  }
+}
