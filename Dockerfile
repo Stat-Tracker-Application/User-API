@@ -21,7 +21,5 @@ RUN npm prune --production
 
 COPY --from=builder . .
 
-
 EXPOSE 5000
-EXPOSE 443
 CMD ["node" , "./Api/Server.js"]
