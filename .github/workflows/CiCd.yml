@@ -40,6 +40,8 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT }} # Replace with your SonarCloud project key
+          SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGINIZATION }}
 
   deploy:
     runs-on: ubuntu-latest
