@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon ./Api/Server.js",
-    "test": "Test"
+    "test": "jest"
   },
   "author": "Bart Hagoort",
   "license": "ISC",
