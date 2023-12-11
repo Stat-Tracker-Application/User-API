@@ -25,24 +25,25 @@ jobs:
         run: npm test
 
   sonarcloud:
-    runs-on: ubuntu-latest
+  runs-on: ubuntu-latest
 
-    env:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}
-      sonar-organization: ${{ secrets.SONAR_ORGANIZATION }}
-      
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  env:
+    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Run SonarCloud scan
-        uses: SonarSource/sonarcloud-github-action@master      
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Create SonarCloud properties file
+      run: echo "sonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}" >> sonar-project.properties && echo "sonar.organization=${{ secrets.SONAR_ORGANIZATION }}" >> sonar-project.properties
+
+    - name: Run SonarCloud scan
+      uses: SonarSource/sonarcloud-github-action@master      
 
   deploy:
     runs-on: ubuntu-latest
