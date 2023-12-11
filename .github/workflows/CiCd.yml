@@ -29,9 +29,7 @@ jobs:
 
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
-      SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
-
+      
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -43,6 +41,9 @@ jobs:
 
       - name: Run SonarCloud scan
         uses: SonarSource/sonarcloud-github-action@master
+        with:
+          sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}
+          sonar-organization: ${{ secrets.SONAR_ORGANIZATION }}
 
   deploy:
     runs-on: ubuntu-latest
