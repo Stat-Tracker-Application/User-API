@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-api
+  template:
+    metadata:
+      labels:
+        app: user-api
+    spec:
+      containers:
+        - name: user-api
+          image: lokitheshady/stat-tracker-user-api:latest
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 5200
+          env:
+            - name: userdb_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: userdb-config
+                  key: userdb-user
+            - name: userdb_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: userdb-config
+                  key: userdb-password
+            - name: MONGODB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: userdb-config
+                  key: userdb-url
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-api
+spec:
+  type: LoadBalancer
+  selector:
+    app: user-api
+  ports:
+    - protocol: TCP
+      port: 5200
+      targetPort: 5200

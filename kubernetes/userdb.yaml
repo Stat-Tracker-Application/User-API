@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userdb-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userdb
+  template:
+    metadata:
+      labels:
+        app: userdb
+    spec:
+      containers:
+        - name: userdb
+          image: mongo:latest
+          resources:
+            limits:
+              cpu: "500m"
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: userdb-config
+                  key: userdb-user
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: userdb-config
+                  key: userdb-password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: userdb-service
+spec:
+  selector:
+    app: userdb
+  ports:
+    - port: 5250
+      targetPort: 27017
