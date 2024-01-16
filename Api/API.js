@@ -26,13 +26,13 @@ app.use(bodyparser.json());
 // Create
 app.post("/createuser", async (req, res) => {
   try {
-    const { Testname, TestAge } = req.body;
-    const newUser = new UserModel({ Testname, TestAge });
+    const { username, TestAge } = req.body;
+    const newUser = new UserModel({ username, TestAge });
     await newUser.save();
 
     // Send only the relevant data in the response
     res.json({
-      Testname: newUser.username,
+      username: newUser.username,
       TestAge: newUser.TestAge,
       TimeOfCreation: newUser.TimeOfCreation,
     });
@@ -71,10 +71,10 @@ app.get("/getuserbyid/:id", async (req, res) => {
 app.put("/updateuser/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { Testname, TestAge } = req.body;
+    const { username, TestAge } = req.body;
     const updatedUser = await UserModel.findByIdAndUpdate(
       id,
-      { username: Testname, TestAge },
+      { username: username, TestAge },
       { new: true }
     );
     res.json(updatedUser);
