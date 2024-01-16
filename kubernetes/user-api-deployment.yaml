@@ -23,12 +23,12 @@ spec:
           ports:
             - containerPort: 5200
           env:
-            - name: userdb_USER
+            - name: USERDB_USER
               valueFrom:
                 configMapKeyRef:
                   name: userdb-config
                   key: userdb-user
-            - name: userdb_PASSWORD
+            - name: USERDB_PASSWORD
               valueFrom:
                 configMapKeyRef:
                   name: userdb-config
