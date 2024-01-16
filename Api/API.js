@@ -12,7 +12,7 @@ const CONNECTION_STRING = `mongodb://${username}:${password}@userdb-service:5250
 console.log(CONNECTION_STRING);
 
 const userSchema = new mongoose.Schema({
-  Testname: String,
+  username: String,
   TestAge: Number,
   TimeOfCreation: { type: Date, default: Date.now },
 });
@@ -32,7 +32,7 @@ app.post("/createuser", async (req, res) => {
 
     // Send only the relevant data in the response
     res.json({
-      Testname: newUser.Testname,
+      Testname: newUser.username,
       TestAge: newUser.TestAge,
       TimeOfCreation: newUser.TimeOfCreation,
     });
@@ -74,7 +74,7 @@ app.put("/updateuser/:id", async (req, res) => {
     const { Testname, TestAge } = req.body;
     const updatedUser = await UserModel.findByIdAndUpdate(
       id,
-      { Testname, TestAge },
+      { username: Testname, TestAge },
       { new: true }
     );
     res.json(updatedUser);
@@ -89,6 +89,24 @@ app.delete("/deleteuser/:id", async (req, res) => {
     const { id } = req.params;
     await UserModel.findByIdAndDelete(id);
     res.json({ message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/", function (req, res) {
+  res.json({
+    message: "Hello world from user api",
+  });
+});
+
+app.delete("/deleteusersbyusername", async (req, res) => {
+  try {
+    const { username } = req.body;
+    await UserModel.deleteMany({ username: username });
+    res.json({
+      message: `Users with username '${username}' deleted successfully`,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
